@@ -270,7 +270,7 @@ module Mongo
             if !@checked_out.include?(socket_for_thread)
               socket = checkout_existing_socket(socket_for_thread)
             else
-              puts "#{Time.now.strftime('%Y-%m-%d %H:%M:%S')} Mongo: Socket already checked out: client: #{client.inspect}, pool: #{self.inspect}, socket: #{socket_for_thread.inspect} "
+              puts "#{Time.now.strftime('%Y-%m-%d %H:%M:%S')} Mongo: Socket already checked out: client: #{@client.inspect}, pool: #{self.inspect}, socket: #{socket_for_thread} "
             end
           else
             if @sockets.size < @size
@@ -298,7 +298,7 @@ module Mongo
             return socket
           else
             # Otherwise, wait
-            puts "#{Time.now.strftime('%Y-%m-%d %H:%M:%S')} Mongo: going into wait: #{self.inspect}, client: #{client.inspect}"
+            puts "#{Time.now.strftime('%Y-%m-%d %H:%M:%S')} Mongo: going into wait: #{self.inspect}, client: #{@client.inspect}"
             @queue.wait(@connection_mutex)
           end
         end
