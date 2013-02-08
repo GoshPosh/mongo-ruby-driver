@@ -162,7 +162,7 @@ module Mongo
       # unpacks to size, request_id, response_to
       response_to = header.unpack('VVV')[2]
       if !exhaust && expected_response != response_to
-        puts "#{Time.now.strftime('%Y-%m-%d %H:%M:%S')} Mongo: receive header: #{header}, socket: #{socket ? socket.inspect : nil}"
+        puts "#{Time.now.strftime('%Y-%m-%d %H:%M:%S')} Mongo: receive header: #{header}, sock: #{sock ? sock.inspect : nil}"
         raise Mongo::ConnectionFailure, "Expected response #{expected_response} but got #{response_to}"
       end
 
