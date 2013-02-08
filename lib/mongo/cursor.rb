@@ -483,6 +483,7 @@ module Mongo
             nil, @options & OP_QUERY_EXHAUST != 0)
         rescue ConnectionFailure => ex
           if tries < 3 && !@socket && (!@command || Mongo::Support::secondary_ok?(@selector))
+            puts "#{Time.now.strftime('%Y-%m-%d %H:%M:%S')} Mongo: retry on connection failure: Tries : #{tries}, socket: #{sock.inspect}, pool: #{sock.pool.inspect}, connection: #{@connection.inspect}"
             @connection.unpin_pool(sock.pool) if sock
             @connection.refresh
             retry

@@ -116,6 +116,7 @@ module Mongo
         send_message_on_socket(packed_message, socket)
         result = receive(socket, request_id, exhaust)
       rescue ConnectionFailure => ex
+        puts "#{Time.now.strftime('%Y-%m-%d %H:%M:%S')} Mongo: packed message: #{packed_message}, request_id: #{request_id}, socket: #{socket ? socket.inspect : nil}"
         checkin(socket)
         raise ex
       rescue SystemStackError, NoMemoryError, SystemCallError => ex
@@ -161,6 +162,7 @@ module Mongo
       # unpacks to size, request_id, response_to
       response_to = header.unpack('VVV')[2]
       if !exhaust && expected_response != response_to
+        puts "#{Time.now.strftime('%Y-%m-%d %H:%M:%S')} Mongo: receive header: #{header}, socket: #{socket ? socket.inspect : nil}"
         raise Mongo::ConnectionFailure, "Expected response #{expected_response} but got #{response_to}"
       end
 
